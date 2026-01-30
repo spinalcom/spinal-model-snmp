@@ -12,13 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SpinalSNMPNetwork = void 0;
 const spinal_core_connectorjs_1 = require("spinal-core-connectorjs");
 const utils_1 = require("./utils");
-const crypto_1 = require("crypto");
+const uuid_1 = require("uuid");
 class SpinalSNMPNetwork extends spinal_core_connectorjs_1.Model {
     constructor(network) {
         if (!network)
             return;
         super();
-        this.add_attr(Object.assign({ id: network.id || (0, crypto_1.randomUUID)(), address: network.address }, (network.mibFile && { mibFile: this._convertFileToSpinalFile(network.mibFile) })));
+        this.add_attr(Object.assign({ id: network.id || (0, uuid_1.v4)(), address: network.address }, (network.mibFile && { mibFile: this._convertFileToSpinalFile(network.mibFile) })));
     }
     getMibData() {
         return __awaiter(this, arguments, void 0, function* (hubUrl = "") {

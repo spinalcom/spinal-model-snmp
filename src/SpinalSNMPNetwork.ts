@@ -2,14 +2,14 @@ import { Model, Pbr, spinalCore, File as SpinalFile, Path as SpinalPath } from "
 import { ISnmpNetwork } from "./constants";
 import { getPathData, waitModelReady } from "./utils";
 import { url } from "inspector";
-import { randomUUID } from "crypto";
+import { v4 as uuidv4 } from "uuid";
 
 class SpinalSNMPNetwork extends Model {
     constructor(network?: ISnmpNetwork) {
         if (!network) return;
         super();
         this.add_attr({
-            id: network.id || randomUUID(),
+            id: network.id || uuidv4(),
             address: network.address,
             ...(network.mibFile && { mibFile: this._convertFileToSpinalFile(network.mibFile) })
         });
