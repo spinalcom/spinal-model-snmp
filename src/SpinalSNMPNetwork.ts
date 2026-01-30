@@ -2,18 +2,22 @@ import { Model, Pbr, spinalCore, File as SpinalFile, Path as SpinalPath } from "
 import { ISnmpNetwork } from "./constants";
 import { getPathData, waitModelReady } from "./utils";
 import { url } from "inspector";
+import { randomUUID } from "crypto";
 
 class SpinalSNMPNetwork extends Model {
-    constructor(network: ISnmpNetwork) {
+    constructor(network?: ISnmpNetwork) {
+        if (!network) return;
         super();
         this.add_attr({
-            id: network.id,
+            id: network.id || randomUUID(),
             address: network.address,
-            mibFile: this._convertFileToSpinalFile(network.mibFile)
+            ...(network.mibFile && { mibFile: this._convertFileToSpinalFile(network.mibFile) })
         });
     }
 
-    public async getMibData(hubUrl: string = ""): Promise<Uint8Array> {
+    public async getMibData(hubUrl: string = ""): Promise<Uint8Array | void> {
+        if (!this.mibFile) return undefined;
+
         await waitModelReady(this.mibFile);
         const pathData = await getPathData(this.mibFile, hubUrl);
 

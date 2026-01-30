@@ -24,6 +24,7 @@ export interface IRequest {
 }
 export interface ISnmpNetwork {
     id?: string;
+    name?: string;
     address: string;
-    mibFile: Buffer;
+    mibFile?: Buffer;
 }
