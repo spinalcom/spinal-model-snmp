@@ -13,20 +13,25 @@ exports.SpinalSNMPDiscover = void 0;
 const spinal_core_connectorjs_1 = require("spinal-core-connectorjs");
 const uuid_1 = require("uuid");
 const constants_1 = require("./constants");
+const SpinalSNMPNetwork_1 = require("./SpinalSNMPNetwork");
 class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
-    constructor(graph, context, network, organ) {
+    constructor(graph, context, organ, networks) {
         super();
-        if (!graph || !context || !network || !organ)
+        if (!graph || !context || !networks || !organ)
             return;
+        const networksFormatted = this._formatNetworks(networks);
         this.add_attr({
             id: (0, uuid_1.v4)(),
             graph: graph && new spinal_core_connectorjs_1.Pbr(graph),
             context: context && new spinal_core_connectorjs_1.Pbr(context),
-            network: network && new spinal_core_connectorjs_1.Pbr(network),
+            networks: new spinal_core_connectorjs_1.Pbr(networksFormatted),
             organ: organ && new spinal_core_connectorjs_1.Pbr(organ),
             creation: Date.now(),
             state: constants_1.STATES.reseted
         });
+    }
+    _formatNetworks(networks) {
+        return networks.map((network) => new SpinalSNMPNetwork_1.default(network));
     }
     setDiscoveringMode() {
         this.state.set(constants_1.STATES.discovering);

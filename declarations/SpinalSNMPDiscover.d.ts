@@ -1,7 +1,9 @@
 import { Model } from "spinal-core-connectorjs";
 import { SpinalContext, SpinalGraph, SpinalNode } from "spinal-model-graph";
+import { ISnmpNetwork } from "./constants";
 declare class SpinalSNMPDiscover extends Model {
-    constructor(graph?: SpinalGraph, context?: SpinalContext, network?: SpinalNode, organ?: SpinalNode);
+    constructor(graph?: SpinalGraph, context?: SpinalContext, organ?: SpinalNode, networks?: ISnmpNetwork[]);
+    private _formatNetworks;
     setDiscoveringMode(): void;
     setDiscoveredMode(): void;
     setResetedMode(): void;

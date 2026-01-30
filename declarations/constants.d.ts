@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { SpinalNode } from 'spinal-model-graph';
 export declare const SNMP_ORGAN_TYPE = "SNMP_ORGAN_TYPE";
 export declare enum STATES {
@@ -20,4 +21,9 @@ export interface IDataNodes {
 export interface IRequest {
     value: string | number | boolean;
     nodeId: string;
+}
+export interface ISnmpNetwork {
+    id?: string;
+    address: string;
+    mibFile: Buffer;
 }

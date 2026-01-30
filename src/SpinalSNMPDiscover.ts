@@ -1,25 +1,35 @@
-import { Model, Pbr, spinalCore } from "spinal-core-connectorjs";
+import { Model, Pbr, spinalCore, File as SpinalFile, Path as SpinalPath } from "spinal-core-connectorjs";
 import { SpinalContext, SpinalGraph, SpinalNode } from "spinal-model-graph";
 import SpinalOrganSNMP from "./SpinalOrganSNMP";
 import { v4 as uuidv4 } from "uuid";
-import { STATES } from "./constants";
+import { ISnmpNetwork, STATES } from "./constants";
+import { Buffer } from "buffer";
+import SpinalSNMPNetwork from "./SpinalSNMPNetwork";
 
 class SpinalSNMPDiscover extends Model {
-    constructor(graph?: SpinalGraph, context?: SpinalContext, network?: SpinalNode, organ?: SpinalNode) {
+    constructor(graph?: SpinalGraph, context?: SpinalContext, organ?: SpinalNode, networks?: ISnmpNetwork[]) {
         super();
-        if (!graph || !context || !network || !organ) return;
+        if (!graph || !context || !networks || !organ) return;
+
+        const networksFormatted = this._formatNetworks(networks);
 
         this.add_attr({
             id: uuidv4(),
             graph: graph && new Pbr(graph),
             context: context && new Pbr(context),
-            network: network && new Pbr(network),
+            networks: new Pbr(networksFormatted),
             organ: organ && new Pbr(organ),
             creation: Date.now(),
             state: STATES.reseted
         })
 
     }
+
+    private _formatNetworks(networks: ISnmpNetwork[]) {
+        return networks.map((network) => new SpinalSNMPNetwork(network));
+    }
+
+
 
     public setDiscoveringMode(): void {
         this.state.set(STATES.discovering);
