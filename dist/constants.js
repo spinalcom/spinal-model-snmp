@@ -4,12 +4,17 @@ exports.STATES = exports.SNMP_ORGAN_TYPE = void 0;
 exports.SNMP_ORGAN_TYPE = "SNMP_ORGAN_TYPE";
 var STATES;
 (function (STATES) {
-    STATES[STATES["error"] = -1] = "error";
-    STATES[STATES["initial"] = 0] = "initial";
-    STATES[STATES["discovering"] = 1] = "discovering";
-    STATES[STATES["discovered"] = 2] = "discovered";
-    STATES[STATES["timeout"] = 3] = "timeout";
-    STATES[STATES["creating"] = 4] = "creating";
-    STATES[STATES["created"] = 5] = "created";
+    STATES["initial"] = "initial";
+    STATES["readyToDiscover"] = "readyToDiscover";
+    STATES["discovering"] = "discovering";
+    STATES["discovered"] = "discovered";
+    STATES["readyToCreate"] = "readyToCreate";
+    STATES["creating"] = "creating";
+    STATES["created"] = "created";
+    STATES["error"] = "error";
+    STATES["timeout"] = "timeout";
+    STATES["cancelled"] = "cancelled";
+    STATES["pending"] = "pending";
+    STATES["stopped"] = "stopped";
 })(STATES || (exports.STATES = STATES = {}));
 //# sourceMappingURL=constants.js.map

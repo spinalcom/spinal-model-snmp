@@ -4,13 +4,18 @@ import { SpinalNode } from 'spinal-model-graph';
 export const SNMP_ORGAN_TYPE = "SNMP_ORGAN_TYPE";
 
 export enum STATES {
-    error = -1,
-    initial = 0,
-    discovering = 1,
-    discovered = 2,
-    timeout = 3,
-    creating = 4,
-    created = 5
+    initial = "initial",
+    readyToDiscover = "readyToDiscover",
+    discovering = "discovering",
+    discovered = "discovered",
+    readyToCreate = "readyToCreate",
+    creating = "creating",
+    created = "created",
+    error = "error",
+    timeout = "timeout",
+    cancelled = "cancelled",
+    pending = "pending",
+    stopped = "stopped"
 }
 
 export interface IDataNodes {
