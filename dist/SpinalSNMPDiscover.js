@@ -25,7 +25,7 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
             id: (0, uuid_1.v4)(),
             graph: graph && new spinal_core_connectorjs_1.Pbr(graph),
             context: context && new spinal_core_connectorjs_1.Pbr(context),
-            networks: new spinal_core_connectorjs_1.Ptr(new spinal_core_connectorjs_1.Lst(networksFormatted)),
+            networks: networksFormatted,
             organ: organ && new spinal_core_connectorjs_1.Pbr(organ),
             creation: Date.now(),
             state: new spinal_core_connectorjs_1.Choice(0, Array.from(choicesSet)),
@@ -35,7 +35,11 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
         });
     }
     _formatNetworks(networks) {
-        return networks.map((network) => new SpinalSNMPNetwork_1.SpinalSNMPNetwork(network));
+        const networksLst = new spinal_core_connectorjs_1.Lst();
+        for (const network of networks) {
+            networksLst.push(new SpinalSNMPNetwork_1.SpinalSNMPNetwork(network));
+        }
+        return networksLst;
     }
     changeState(state) {
         const choicesSet = new Set(Object.keys(constants_1.STATES));

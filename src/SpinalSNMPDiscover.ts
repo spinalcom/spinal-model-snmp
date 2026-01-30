@@ -18,7 +18,7 @@ class SpinalSNMPDiscover extends Model {
             id: uuidv4(),
             graph: graph && new Pbr(graph),
             context: context && new Pbr(context),
-            networks: new Ptr(new Lst(networksFormatted)),
+            networks: networksFormatted,
             organ: organ && new Pbr(organ),
             creation: Date.now(),
             state: new Choice(0, Array.from(choicesSet)),
@@ -31,7 +31,13 @@ class SpinalSNMPDiscover extends Model {
     }
 
     private _formatNetworks(networks: ISnmpNetwork[]) {
-        return networks.map((network) => new SpinalSNMPNetwork(network));
+        const networksLst = new Lst<SpinalSNMPNetwork>();
+
+        for (const network of networks) {
+            networksLst.push(new SpinalSNMPNetwork(network));
+        }
+
+        return networksLst;
     }
 
 
