@@ -6,8 +6,9 @@ import { v4 as uuidv4 } from "uuid";
 
 class SpinalSNMPNetwork extends Model {
     constructor(network?: ISnmpNetwork) {
-        if (!network) return;
         super();
+
+        if (!network) return;
         this.add_attr({
             id: network.id || uuidv4(),
             address: network.address,

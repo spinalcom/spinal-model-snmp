@@ -15,9 +15,9 @@ const utils_1 = require("./utils");
 const uuid_1 = require("uuid");
 class SpinalSNMPNetwork extends spinal_core_connectorjs_1.Model {
     constructor(network) {
+        super();
         if (!network)
             return;
-        super();
         this.add_attr(Object.assign({ id: network.id || (0, uuid_1.v4)(), address: network.address }, (network.mibFile && { mibFile: this._convertFileToSpinalFile(network.mibFile) })));
     }
     getMibData() {
