@@ -1,10 +1,10 @@
-import { Model, Pbr, spinalCore, File as SpinalFile, Path as SpinalPath, Choice, Ptr } from "spinal-core-connectorjs";
+import { Model, Pbr, spinalCore, File as SpinalFile, Path as SpinalPath, Choice, Ptr, Lst } from "spinal-core-connectorjs";
 import { SpinalContext, SpinalGraph, SpinalNode } from "spinal-model-graph";
 import SpinalOrganSNMP from "./SpinalOrganSNMP";
 import { v4 as uuidv4 } from "uuid";
 import { ISnmpNetwork, STATES } from "./constants";
 import { Buffer } from "buffer";
-import SpinalSNMPNetwork from "./SpinalSNMPNetwork";
+import { SpinalSNMPNetwork } from "./SpinalSNMPNetwork";
 
 class SpinalSNMPDiscover extends Model {
     constructor(graph?: SpinalGraph, context?: SpinalContext, organ?: SpinalNode, networks?: ISnmpNetwork[]) {
@@ -18,7 +18,7 @@ class SpinalSNMPDiscover extends Model {
             id: uuidv4(),
             graph: graph && new Pbr(graph),
             context: context && new Pbr(context),
-            networks: new Pbr(networksFormatted),
+            networks: new Ptr(new Lst(networksFormatted)),
             organ: organ && new Pbr(organ),
             creation: Date.now(),
             state: new Choice(0, Array.from(choicesSet)),

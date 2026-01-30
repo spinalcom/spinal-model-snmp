@@ -1,3 +1,4 @@
+export * from "./SpinalSNMPNetwork";
 export * from "./SpinalOrganSNMP";
 export * from "./SpinalSNMPDiscover";
 export * from "./SpinalSNMPListener";
