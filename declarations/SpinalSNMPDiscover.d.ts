@@ -6,7 +6,7 @@ declare class SpinalSNMPDiscover extends Model {
     private _formatNetworks;
     setDiscoveringMode(): void;
     setDiscoveredMode(): void;
-    setResetedMode(): void;
+    setInitialMode(): void;
     setTimeoutMode(): void;
     setCreatingMode(): void;
     setCreatedMode(): void;

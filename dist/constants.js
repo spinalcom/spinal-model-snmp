@@ -5,7 +5,7 @@ exports.SNMP_ORGAN_TYPE = "SNMP_ORGAN_TYPE";
 var STATES;
 (function (STATES) {
     STATES[STATES["error"] = -1] = "error";
-    STATES[STATES["reseted"] = 0] = "reseted";
+    STATES[STATES["initial"] = 0] = "initial";
     STATES[STATES["discovering"] = 1] = "discovering";
     STATES[STATES["discovered"] = 2] = "discovered";
     STATES[STATES["timeout"] = 3] = "timeout";

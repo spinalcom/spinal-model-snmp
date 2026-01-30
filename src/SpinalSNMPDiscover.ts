@@ -20,7 +20,7 @@ class SpinalSNMPDiscover extends Model {
             networks: new Pbr(networksFormatted),
             organ: organ && new Pbr(organ),
             creation: Date.now(),
-            state: STATES.reseted
+            state: STATES.initial
         })
 
     }
@@ -39,8 +39,8 @@ class SpinalSNMPDiscover extends Model {
         this.state.set(STATES.discovered);
     }
 
-    public setResetedMode(): void {
-        this.state.set(STATES.reseted);
+    public setInitialMode(): void {
+        this.state.set(STATES.initial);
     }
 
     public setTimeoutMode(): void {

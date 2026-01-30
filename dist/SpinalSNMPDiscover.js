@@ -27,7 +27,7 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
             networks: new spinal_core_connectorjs_1.Pbr(networksFormatted),
             organ: organ && new spinal_core_connectorjs_1.Pbr(organ),
             creation: Date.now(),
-            state: constants_1.STATES.reseted
+            state: constants_1.STATES.initial
         });
     }
     _formatNetworks(networks) {
@@ -39,8 +39,8 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
     setDiscoveredMode() {
         this.state.set(constants_1.STATES.discovered);
     }
-    setResetedMode() {
-        this.state.set(constants_1.STATES.reseted);
+    setInitialMode() {
+        this.state.set(constants_1.STATES.initial);
     }
     setTimeoutMode() {
         this.state.set(constants_1.STATES.timeout);
