@@ -20,6 +20,7 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
         if (!graph || !context || !networks || !organ)
             return;
         const networksFormatted = this._formatNetworks(networks);
+        const choicesSet = new Set(Object.keys(constants_1.STATES));
         this.add_attr({
             id: (0, uuid_1.v4)(),
             graph: graph && new spinal_core_connectorjs_1.Pbr(graph),
@@ -27,32 +28,18 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
             networks: new spinal_core_connectorjs_1.Pbr(networksFormatted),
             organ: organ && new spinal_core_connectorjs_1.Pbr(organ),
             creation: Date.now(),
-            state: constants_1.STATES.initial
+            state: new spinal_core_connectorjs_1.Choice(0, Array.from(choicesSet)),
+            treeDiscovered: new spinal_core_connectorjs_1.Ptr(),
+            treeToCreate: new spinal_core_connectorjs_1.Ptr(),
+            progress: new spinal_core_connectorjs_1.Model({ finished: 0, failed: 0, total: networks.length }),
         });
     }
     _formatNetworks(networks) {
         return networks.map((network) => new SpinalSNMPNetwork_1.default(network));
     }
-    setDiscoveringMode() {
-        this.state.set(constants_1.STATES.discovering);
-    }
-    setDiscoveredMode() {
-        this.state.set(constants_1.STATES.discovered);
-    }
-    setInitialMode() {
-        this.state.set(constants_1.STATES.initial);
-    }
-    setTimeoutMode() {
-        this.state.set(constants_1.STATES.timeout);
-    }
-    setCreatingMode() {
-        this.state.set(constants_1.STATES.creating);
-    }
-    setCreatedMode() {
-        this.state.set(constants_1.STATES.created);
-    }
-    setErrorMode() {
-        this.state.set(constants_1.STATES.error);
+    changeState(state) {
+        const choicesSet = new Set(Object.keys(constants_1.STATES));
+        this.state.set(Array.from(choicesSet).indexOf(state));
     }
     getOrgan() {
         return __awaiter(this, void 0, void 0, function* () {

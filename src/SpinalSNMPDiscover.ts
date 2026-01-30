@@ -1,4 +1,4 @@
-import { Model, Pbr, spinalCore, File as SpinalFile, Path as SpinalPath } from "spinal-core-connectorjs";
+import { Model, Pbr, spinalCore, File as SpinalFile, Path as SpinalPath, Choice, Ptr } from "spinal-core-connectorjs";
 import { SpinalContext, SpinalGraph, SpinalNode } from "spinal-model-graph";
 import SpinalOrganSNMP from "./SpinalOrganSNMP";
 import { v4 as uuidv4 } from "uuid";
@@ -12,6 +12,7 @@ class SpinalSNMPDiscover extends Model {
         if (!graph || !context || !networks || !organ) return;
 
         const networksFormatted = this._formatNetworks(networks);
+        const choicesSet = new Set(Object.keys(STATES));
 
         this.add_attr({
             id: uuidv4(),
@@ -20,7 +21,11 @@ class SpinalSNMPDiscover extends Model {
             networks: new Pbr(networksFormatted),
             organ: organ && new Pbr(organ),
             creation: Date.now(),
-            state: STATES.initial
+            state: new Choice(0, Array.from(choicesSet)),
+            treeDiscovered: new Ptr(),
+            treeToCreate: new Ptr(),
+            progress: new Model({ finished: 0, failed: 0, total: networks.length }),
+
         })
 
     }
@@ -30,33 +35,10 @@ class SpinalSNMPDiscover extends Model {
     }
 
 
+    public changeState(state: STATES) {
+        const choicesSet = new Set(Object.keys(STATES));
 
-    public setDiscoveringMode(): void {
-        this.state.set(STATES.discovering);
-    }
-
-    public setDiscoveredMode(): void {
-        this.state.set(STATES.discovered);
-    }
-
-    public setInitialMode(): void {
-        this.state.set(STATES.initial);
-    }
-
-    public setTimeoutMode(): void {
-        this.state.set(STATES.timeout);
-    }
-
-    public setCreatingMode(): void {
-        this.state.set(STATES.creating);
-    }
-
-    public setCreatedMode(): void {
-        this.state.set(STATES.created);
-    }
-
-    public setErrorMode(): void {
-        this.state.set(STATES.error);
+        this.state.set(Array.from(choicesSet).indexOf(state));
     }
 
     public async getOrgan(): Promise<SpinalNode> {
