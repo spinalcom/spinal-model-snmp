@@ -20,7 +20,7 @@ class SpinalSNMPNetwork extends Model {
         if (!this.mibFile) return undefined;
 
         await waitModelReady(this.mibFile);
-        const pathData = await getPathData(this.mibFile, hubUrl);
+        const pathData = await getPathData(this.mibFile._server_id, hubUrl);
 
         return pathData;
     }

@@ -25,7 +25,7 @@ class SpinalSNMPNetwork extends spinal_core_connectorjs_1.Model {
             if (!this.mibFile)
                 return undefined;
             yield (0, utils_1.waitModelReady)(this.mibFile);
-            const pathData = yield (0, utils_1.getPathData)(this.mibFile, hubUrl);
+            const pathData = yield (0, utils_1.getPathData)(this.mibFile._server_id, hubUrl);
             return pathData;
         });
     }

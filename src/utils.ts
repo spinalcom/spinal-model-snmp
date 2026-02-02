@@ -1,4 +1,4 @@
-import { Ptr, Str } from "spinal-core-connectorjs_type";
+import { Path as SpinalPath } from "spinal-core-connectorjs_type";
 import axios from "axios";
 import axiosRetry from 'axios-retry';
 
@@ -17,29 +17,29 @@ export function getPathData(dynamicId: number, hubUrl: string = "") {
     });
 }
 
-export function waitModelReady(model: Ptr) {
+export function waitModelReady(path: SpinalPath) {
     return new Promise((resolve, reject) => {
-        model.load((path) => {
-            // if (!path) return resolve(true);
+        //     model.load((path) => {
+        // if (!path) return resolve(true);
 
-            const delay = 3000;
-            const intervalTime = 300;
-            let time = 0;
+        const delay = 3000;
+        const intervalTime = 300;
+        let time = 0;
 
-            const wait = () => {
-                setTimeout(() => {
-                    const remaining = path?.remaining?.get();
+        const wait = () => {
+            setTimeout(() => {
+                const remaining = path?.remaining?.get();
 
-                    if (remaining == 0 || time >= delay) {
-                        resolve(true);
-                    } else {
-                        time += intervalTime;
-                        wait();
-                    }
-                }, intervalTime);
-            };
+                if (remaining == 0 || time >= delay) {
+                    resolve(true);
+                } else {
+                    time += intervalTime;
+                    wait();
+                }
+            }, intervalTime);
+        };
 
-            wait();
-        });
+        wait();
+        // });
     });
 }
