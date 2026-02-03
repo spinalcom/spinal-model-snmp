@@ -36,6 +36,35 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
             progress: new spinal_core_connectorjs_1.Model({ finished: 0, failed: 0, total: networks.length }),
         });
     }
+    getGraph() {
+        return new Promise((resolve, reject) => {
+            try {
+                this.graph.load((data) => resolve(data));
+            }
+            catch (error) {
+                reject(error);
+            }
+        });
+    }
+    getOrgan() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                return this.organ.load((organ) => {
+                    resolve(organ);
+                });
+            });
+        });
+    }
+    getContext() {
+        return new Promise((resolve, reject) => {
+            try {
+                this.context.load((data) => resolve(data));
+            }
+            catch (error) {
+                reject(error);
+            }
+        });
+    }
     _formatNetworks(networks) {
         const networksLst = new spinal_core_connectorjs_1.Lst();
         for (const network of networks) {
@@ -46,15 +75,6 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
     changeState(state) {
         const choicesSet = new Set(Object.keys(constants_1.STATES));
         this.state.set(Array.from(choicesSet).indexOf(state));
-    }
-    getOrgan() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                return this.organ.load((organ) => {
-                    resolve(organ);
-                });
-            });
-        });
     }
     addToGraph() {
         return this.getOrgan().then((organNode) => __awaiter(this, void 0, void 0, function* () {

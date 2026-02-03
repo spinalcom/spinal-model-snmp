@@ -30,7 +30,34 @@ class SpinalSNMPDiscover extends Model {
             progress: new Model({ finished: 0, failed: 0, total: networks.length }),
 
         })
+    }
 
+    public getGraph(): Promise<SpinalGraph> {
+        return new Promise((resolve, reject) => {
+            try {
+                this.graph.load((data) => resolve(data));
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    public async getOrgan(): Promise<SpinalNode> {
+        return new Promise((resolve, reject) => {
+            return this.organ.load((organ: SpinalNode) => {
+                resolve(organ);
+            })
+        });
+    }
+
+    public getContext(): Promise<SpinalContext> {
+        return new Promise((resolve, reject) => {
+            try {
+                this.context.load((data) => resolve(data));
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
     private _formatNetworks(networks: ISnmpNetwork[]) {
@@ -50,13 +77,7 @@ class SpinalSNMPDiscover extends Model {
         this.state.set(Array.from(choicesSet).indexOf(state));
     }
 
-    public async getOrgan(): Promise<SpinalNode> {
-        return new Promise((resolve, reject) => {
-            return this.organ.load((organ: SpinalNode) => {
-                resolve(organ);
-            })
-        });
-    }
+
 
     public addToGraph(): Promise<number> {
         return this.getOrgan().then(async (organNode: SpinalNode) => {
@@ -72,12 +93,6 @@ class SpinalSNMPDiscover extends Model {
             return organ.removeDiscoverModelFromGraph(this);
         });
     }
-
-
-
-
-
-
 
 
     public async setTreeDiscovered(json: any) {
