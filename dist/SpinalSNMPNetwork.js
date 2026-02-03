@@ -18,7 +18,7 @@ class SpinalSNMPNetwork extends spinal_core_connectorjs_1.Model {
         super();
         if (!network)
             return;
-        this.add_attr(Object.assign({ id: network.id || (0, uuid_1.v4)(), address: network.address }, (network.mibFile && { mibFile: this._convertFileToSpinalFile(network.mibFile) })));
+        this.add_attr(Object.assign({ id: network.id || (0, uuid_1.v4)(), address: network.address, name: network.name || network.address }, (network.mibFile && { mibFile: this._convertFileToSpinalFile(network.mibFile) })));
     }
     getMibData() {
         return __awaiter(this, arguments, void 0, function* (hubUrl = "") {

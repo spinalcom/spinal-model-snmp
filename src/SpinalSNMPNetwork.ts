@@ -12,6 +12,7 @@ class SpinalSNMPNetwork extends Model {
         this.add_attr({
             id: network.id || uuidv4(),
             address: network.address,
+            name: network.name || network.address,
             ...(network.mibFile && { mibFile: this._convertFileToSpinalFile(network.mibFile) })
         });
     }
