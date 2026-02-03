@@ -74,14 +74,16 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
             const path = new spinal_core_connectorjs_1.Path(compressed);
             if (this.treeDiscovered)
                 this.rem_attr("treeDiscovered");
-            this.add_attr("treeDiscovered", new spinal_core_connectorjs_1.Ptr(path));
+            this.add_attr({ treeDiscovered: new spinal_core_connectorjs_1.Ptr(path) });
         });
     }
     setTreeToCreate(json) {
         return __awaiter(this, void 0, void 0, function* () {
             const compressed = yield gzip.gzip(JSON.stringify(json));
             const path = new spinal_core_connectorjs_1.Path(compressed);
-            this.mod_attr("treeToCreate", new spinal_core_connectorjs_1.Ptr(path));
+            if (this.treeToCreate)
+                this.rem_attr("treeToCreate");
+            this.add_attr({ treeToCreate: new spinal_core_connectorjs_1.Ptr(path) });
         });
     }
     getTreeDiscovered(hubUrl) {

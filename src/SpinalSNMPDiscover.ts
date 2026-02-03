@@ -85,13 +85,15 @@ class SpinalSNMPDiscover extends Model {
         const path = new SpinalPath(compressed);
         if (this.treeDiscovered) this.rem_attr("treeDiscovered");
 
-        this.add_attr("treeDiscovered", new Ptr(path));
+        this.add_attr({ treeDiscovered: new Ptr(path) });
     }
 
     public async setTreeToCreate(json: any) {
         const compressed = await gzip.gzip(JSON.stringify(json));
         const path = new SpinalPath(compressed);
-        this.mod_attr("treeToCreate", new Ptr(path));
+        if (this.treeToCreate) this.rem_attr("treeToCreate");
+
+        this.add_attr({ treeToCreate: new Ptr(path) });
     }
 
     public async getTreeDiscovered(hubUrl?: string) {
