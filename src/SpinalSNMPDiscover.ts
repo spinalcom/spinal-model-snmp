@@ -5,6 +5,9 @@ import { v4 as uuidv4 } from "uuid";
 import { ISnmpNetwork, STATES } from "./constants";
 import { Buffer } from "buffer";
 import { SpinalSNMPNetwork } from "./SpinalSNMPNetwork";
+import * as gzip from "node-gzip"
+import { getPathData } from "./utils";
+
 
 class SpinalSNMPDiscover extends Model {
     constructor(graph?: SpinalGraph, context?: SpinalContext, organ?: SpinalNode, networks?: ISnmpNetwork[]) {
@@ -69,6 +72,48 @@ class SpinalSNMPDiscover extends Model {
             return organ.removeDiscoverModelFromGraph(this);
         });
     }
+
+
+
+
+
+
+
+
+    public async setTreeDiscovered(json: any) {
+        const compressed = await gzip.gzip(JSON.stringify(json));
+        const path = new SpinalPath(compressed);
+        if (this.treeDiscovered) this.rem_attr("treeDiscovered");
+
+        this.add_attr("treeDiscovered", new Ptr(path));
+    }
+
+    public async setTreeToCreate(json: any) {
+        const compressed = await gzip.gzip(JSON.stringify(json));
+        const path = new SpinalPath(compressed);
+        this.mod_attr("treeToCreate", new Ptr(path));
+    }
+
+    public async getTreeDiscovered(hubUrl?: string) {
+        // await waitModelReady(this.treeDiscovered);
+
+        const pathData = await getPathData(this.treeDiscovered.data.value, hubUrl);
+        const decompressed = await gzip.ungzip(pathData);
+        return JSON.parse(decompressed.toString());
+    }
+
+
+    public async getTreeToCreate(hubUrl?: string) {
+        // await waitModelReady(this.treeToCreate);
+
+        const pathData = await getPathData(this.treeToCreate.data.value, hubUrl);
+        const decompressed = await gzip.ungzip(pathData);
+        return JSON.parse(decompressed.toString());
+
+    }
+
+
+
 }
 
 

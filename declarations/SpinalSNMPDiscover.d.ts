@@ -8,6 +8,10 @@ declare class SpinalSNMPDiscover extends Model {
     getOrgan(): Promise<SpinalNode>;
     addToGraph(): Promise<number>;
     remove(): Promise<boolean>;
+    setTreeDiscovered(json: any): Promise<void>;
+    setTreeToCreate(json: any): Promise<void>;
+    getTreeDiscovered(hubUrl?: string): Promise<any>;
+    getTreeToCreate(hubUrl?: string): Promise<any>;
 }
 export { SpinalSNMPDiscover };
 export default SpinalSNMPDiscover;

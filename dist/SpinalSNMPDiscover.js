@@ -14,6 +14,8 @@ const spinal_core_connectorjs_1 = require("spinal-core-connectorjs");
 const uuid_1 = require("uuid");
 const constants_1 = require("./constants");
 const SpinalSNMPNetwork_1 = require("./SpinalSNMPNetwork");
+const gzip = require("node-gzip");
+const utils_1 = require("./utils");
 class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
     constructor(graph, context, organ, networks) {
         super();
@@ -65,6 +67,38 @@ class SpinalSNMPDiscover extends spinal_core_connectorjs_1.Model {
             const organ = yield organNode.getElement(true);
             return organ.removeDiscoverModelFromGraph(this);
         }));
+    }
+    setTreeDiscovered(json) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const compressed = yield gzip.gzip(JSON.stringify(json));
+            const path = new spinal_core_connectorjs_1.Path(compressed);
+            if (this.treeDiscovered)
+                this.rem_attr("treeDiscovered");
+            this.add_attr("treeDiscovered", new spinal_core_connectorjs_1.Ptr(path));
+        });
+    }
+    setTreeToCreate(json) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const compressed = yield gzip.gzip(JSON.stringify(json));
+            const path = new spinal_core_connectorjs_1.Path(compressed);
+            this.mod_attr("treeToCreate", new spinal_core_connectorjs_1.Ptr(path));
+        });
+    }
+    getTreeDiscovered(hubUrl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // await waitModelReady(this.treeDiscovered);
+            const pathData = yield (0, utils_1.getPathData)(this.treeDiscovered.data.value, hubUrl);
+            const decompressed = yield gzip.ungzip(pathData);
+            return JSON.parse(decompressed.toString());
+        });
+    }
+    getTreeToCreate(hubUrl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // await waitModelReady(this.treeToCreate);
+            const pathData = yield (0, utils_1.getPathData)(this.treeToCreate.data.value, hubUrl);
+            const decompressed = yield gzip.ungzip(pathData);
+            return JSON.parse(decompressed.toString());
+        });
     }
 }
 exports.SpinalSNMPDiscover = SpinalSNMPDiscover;
