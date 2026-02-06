@@ -45,7 +45,7 @@ class SpinalSNMPPilot extends spinal_core_connectorjs_1.Model {
         return this.getOrgan().then((organNode) => __awaiter(this, void 0, void 0, function* () {
             const organModel = yield organNode.getElement(true);
             if (organModel) {
-                return organModel.addPilotToGraph(this);
+                return organModel.addPilotModelToGraph(this);
             }
         }));
     }

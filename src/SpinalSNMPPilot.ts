@@ -41,7 +41,7 @@ class SpinalSNMPPilot extends Model {
         return this.getOrgan().then(async (organNode: SpinalNode) => {
             const organModel = await organNode.getElement(true);
             if (organModel) {
-                return organModel.addPilotToGraph(this);
+                return organModel.addPilotModelToGraph(this);
             }
         })
     }
