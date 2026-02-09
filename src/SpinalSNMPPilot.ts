@@ -10,8 +10,9 @@ class SpinalSNMPPilot extends Model {
         this.add_attr({
             id: uuidv4(),
             state: new Choice(0, ["init", "processing", "success", "error"]),
+            creation: Date.now(),
             organ: new Pbr(organ),
-            request: Array.isArray(request) ? new Lst(request) : new Lst([request])
+            request: Array.isArray(request) ? new Lst(request) : new Lst([request]),
         })
     }
 

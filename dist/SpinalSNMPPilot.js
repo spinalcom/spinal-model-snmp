@@ -20,8 +20,9 @@ class SpinalSNMPPilot extends spinal_core_connectorjs_1.Model {
         this.add_attr({
             id: (0, uuid_1.v4)(),
             state: new spinal_core_connectorjs_1.Choice(0, ["init", "processing", "success", "error"]),
+            creation: Date.now(),
             organ: new spinal_core_connectorjs_1.Pbr(organ),
-            request: Array.isArray(request) ? new spinal_core_connectorjs_1.Lst(request) : new spinal_core_connectorjs_1.Lst([request])
+            request: Array.isArray(request) ? new spinal_core_connectorjs_1.Lst(request) : new spinal_core_connectorjs_1.Lst([request]),
         });
     }
     setInitMode() {
