@@ -4,13 +4,12 @@ import { v4 as uuidv4 } from "uuid";
 import { IDataNodes } from "./constants";
 
 class SpinalSNMPListener extends Model {
-    constructor(graph?: SpinalGraph, context?: SpinalContext, organ?: SpinalNode, network?: SpinalNode, bmsDevice?: SpinalNode, profile?: SpinalNode, saveTimeSeries: boolean = false) {
+    constructor(graph?: SpinalGraph, context?: SpinalContext, organ?: SpinalNode, network?: SpinalNode, bmsDevice?: SpinalNode, profile?: SpinalNode) {
         super();
         if (!graph || !context || !organ || !network || !bmsDevice || !profile) return;
         this.add_attr({
             id: uuidv4(),
             monitored: true,
-            saveTimeSeries: saveTimeSeries,
             network: new Pbr(network),
             organ: new Pbr(organ),
             context: new Pbr(context),

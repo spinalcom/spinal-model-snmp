@@ -2,7 +2,7 @@ import { Model } from "spinal-core-connectorjs";
 import { SpinalNode, SpinalGraph, SpinalContext } from "spinal-model-graph";
 import { IDataNodes } from "./constants";
 declare class SpinalSNMPListener extends Model {
-    constructor(graph?: SpinalGraph, context?: SpinalContext, organ?: SpinalNode, network?: SpinalNode, bmsDevice?: SpinalNode, profile?: SpinalNode, saveTimeSeries?: boolean);
+    constructor(graph?: SpinalGraph, context?: SpinalContext, organ?: SpinalNode, network?: SpinalNode, bmsDevice?: SpinalNode, profile?: SpinalNode);
     getAllData(): Promise<IDataNodes>;
     getGraph(): Promise<SpinalNode>;
     getOrgan(): Promise<SpinalNode>;

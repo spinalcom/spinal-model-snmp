@@ -13,14 +13,13 @@ exports.SpinalSNMPListener = void 0;
 const spinal_core_connectorjs_1 = require("spinal-core-connectorjs");
 const uuid_1 = require("uuid");
 class SpinalSNMPListener extends spinal_core_connectorjs_1.Model {
-    constructor(graph, context, organ, network, bmsDevice, profile, saveTimeSeries = false) {
+    constructor(graph, context, organ, network, bmsDevice, profile) {
         super();
         if (!graph || !context || !organ || !network || !bmsDevice || !profile)
             return;
         this.add_attr({
             id: (0, uuid_1.v4)(),
             monitored: true,
-            saveTimeSeries: saveTimeSeries,
             network: new spinal_core_connectorjs_1.Pbr(network),
             organ: new spinal_core_connectorjs_1.Pbr(organ),
             context: new spinal_core_connectorjs_1.Pbr(context),
