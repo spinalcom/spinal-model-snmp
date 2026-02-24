@@ -1,99 +1,13 @@
-import { Choice, Lst, Model, Pbr, Ptr, spinalCore } from "spinal-core-connectorjs";
+import { spinalCore } from "spinal-core-connectorjs";
 import { SpinalNode } from "spinal-model-graph";
-import { v4 as uuidv4 } from "uuid"
 import { IRequest } from "./constants";
+import { SpinalPilot } from "spinal-connector-service";
+class SpinalSNMPPilot extends SpinalPilot<IRequest> {
 
-class SpinalSNMPPilot extends Model {
     constructor(organ?: SpinalNode, request?: IRequest) {
-        super();
+        super(organ, request);
         if (!organ || !request) return;
-        this.add_attr({
-            id: uuidv4(),
-            state: new Choice(0, ["init", "processing", "success", "error"]),
-            creation: Date.now(),
-            organ: new Pbr(organ),
-            request: Array.isArray(request) ? new Lst(request) : new Lst([request]),
-        })
     }
-
-    public setInitMode() {
-        this.state.set("init");
-    }
-
-    public setProcessMode() {
-        this.state.set("processing");
-    }
-
-    public setSuccessMode() {
-        this.state.set("success");
-    }
-
-    public setErrorMode() {
-        this.state.set("error");
-    }
-
-    public getOrgan(): Promise<SpinalNode> {
-        return new Promise((resolve, reject) => {
-            this.organ.load(value => resolve(value));
-        });
-    }
-
-    public addToGraph(): Promise<number> {
-        return this.getOrgan().then(async (organNode: SpinalNode) => {
-            const organModel = await organNode.getElement(true);
-            if (organModel) {
-                return organModel.addPilotModelToGraph(this);
-            }
-        })
-    }
-
-    public removeFromGraph(): Promise<boolean> {
-        return this.getOrgan().then(async (organNode: SpinalNode) => {
-            const organModel = await organNode.getElement(true);
-            if (organModel) {
-                return organModel.removePilotModelFromGraph(this);
-            }
-        })
-    }
-
-    public addToNode(endpoint: SpinalNode<any>): Promise<any> {
-        return new Promise((resolve) => {
-            if (!endpoint.info.pilot) {
-                const model = new Lst();
-                model.push(this);
-                endpoint.info.add_attr({ pilot: new Ptr(model) });
-                resolve(model);
-            } else {
-                endpoint.info.pilot.load(lst => {
-                    lst.push(this)
-                    resolve(lst);
-                })
-            }
-        }).then((res) => {
-            this.add_attr({ node: endpoint });
-            return res;
-        })
-    }
-
-    public removeFromNode(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            if (this.node) {
-                this.node.info.pilot.load(lst => {
-                    for (let i = 0; i < lst.length; i++) {
-                        const element = lst[i];
-                        if (element.id.get() === this.id.get()) {
-                            lst.splice(i);
-                            break;
-                        }
-                    }
-                    resolve(true);
-                })
-            } else {
-                resolve(false)
-            }
-        });
-    }
-
 
 }
 

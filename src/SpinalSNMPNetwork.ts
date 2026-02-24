@@ -1,8 +1,8 @@
-import { Model, Pbr, spinalCore, File as SpinalFile, Path as SpinalPath } from "spinal-core-connectorjs";
+import { Model, spinalCore, Path as SpinalPath } from "spinal-core-connectorjs";
 import { ISnmpNetwork } from "./constants";
 import { getPathData, waitModelReady } from "./utils";
-import { url } from "inspector";
 import { v4 as uuidv4 } from "uuid";
+
 
 class SpinalSNMPNetwork extends Model {
     constructor(network?: ISnmpNetwork) {
